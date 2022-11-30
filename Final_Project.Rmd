@@ -355,6 +355,16 @@ sex1 <- vac_sex %>%
     labs(x = "Sex", y = "Percent of people with at least one dose", fill='Sex group',
          title = "Figure 4.Percent of people with at least one dose grouped by sex")
 ggplotly(sex1)
+
+sex01 <- vac_sex %>%
+    ggplot(aes(x = date, y = dose1_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Sex group", 
+         title = "Supplemental figure 1.Percent of people completed a primary seriese grouped by sex")
+ggplotly(sex01)
 ```
 
 ```{r summary graphs for series doses,cache=TRUE, fig.height = 5, fig.width = 9}
@@ -393,6 +403,16 @@ sex2 <- vac_sex %>%
     labs(x = "Sex", y = "Percent of people completed a primary seriese", fill = 'Sex group',
          title = "Figure 8.Percent of people completed a primary seriese grouped by sex")
 ggplotly(sex2)
+
+sex02 <- vac_sex %>%
+    ggplot(aes(x = date, y = dose1_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Sex group", 
+         title = "Supplemental figure 2.Percent of people completed a primary series grouped by sex")
+ggplotly(sex02)
 ```
 
 <br>
