@@ -4,7 +4,10 @@ navbar:
   title: "PM566 Final Project"
   left:
     - text: "Final Project"
-      href: Final_Project.html
+      href: index.html
+    - text: "Home"
+      href: https://github.com/yating-zeng
+
   right:
     - icon: fa-github fa-lg
       href: https://github.com/USCbiostats/PM566

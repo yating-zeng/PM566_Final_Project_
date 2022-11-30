@@ -12,7 +12,7 @@ output:
 always_allow_html: TRUE
 ---
 This is my PM566 Final Project website. 
-https://yating-zeng.github.io/PM566_Lab12/
+https://yating-zeng.github.io/PM566_Lab12/Final_Project.html
 
 <br>
 
