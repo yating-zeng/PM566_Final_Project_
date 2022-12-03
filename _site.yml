@@ -4,7 +4,7 @@ navbar:
   title: "PM566 Final Project"
   left:
     - text: "Final Project"
-      href: index.html
+      href: Final_Project.html
     - text: "Home"
       href: https://github.com/yating-zeng
 

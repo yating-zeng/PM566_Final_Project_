@@ -10,5 +10,8 @@ output:
 This is my PM566 Final Project website. 
 https://yating-zeng.github.io/PM566_Lab12/Final_Project.html
 
+And Supplementary website.
+https://yating-zeng.github.io/PM566_Lab12/Final_Project_Supplementary.html
+
 <br>
 
