@@ -7,14 +7,15 @@ navbar:
       href: Final_Project.html
     - text: "Final Project Supplementary"
       href: Final_Project_Supplementary.html
-    - text: "Home"
-      href: https://github.com/yating-zeng
+    
 
   right:
     - icon: fa-github fa-lg
       href: https://github.com/USCbiostats/PM566
     - text: "PM566 Home"
       href: https://uscbiostats.github.io/PM566/
+    - text: "Yating's Home"
+      href: https://github.com/yating-zeng
 output:
   html_document:
     theme: cosmo
