@@ -13,8 +13,10 @@ always_allow_html: TRUE
 ---
 This is my PM566 Final Project website. 
 https://yating-zeng.github.io/PM566_Lab12/Final_Project.html
-and Supplementary website.
+
+And Supplementary website.
 https://yating-zeng.github.io/PM566_Lab12/Final_Project_Supplementary.html
+
 <br>
 
 
@@ -316,8 +318,8 @@ ggplotly(age1)
 #    labs(x = "Sex", y = "Percent of people with at least one dose", fill='Sex group',
 #         title = "Spplementary figure 10.Percent of people with at least one dose grouped by sex")
 ```
-
-From the line plot (figures 2) suggests that there would be difference of the percent of having at least one dose between female and male, making it to be reasonable to use the stratified data for analyze the association between age and vaccination rate.
+<br>
+From the line plot (figures 2) suggests that there would be difference of the percent of having at least one dose between female and male, making it to be more appropriate to use the stratified data for analyzing the association between age and vaccination rate.
 
 ```{r}
 sex01 <- vac_sex %>%

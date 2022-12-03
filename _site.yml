@@ -5,6 +5,8 @@ navbar:
   left:
     - text: "Final Project"
       href: Final_Project.html
+    - text: "Final Project Supplementary"
+      href: Final_Project_Supplementary.html
     - text: "Home"
       href: https://github.com/yating-zeng
 
