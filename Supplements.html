@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Yating Zeng" />
+
+<meta name="date" content="2022-12-08" />
+
+<title>PM566 Final Project Supplements</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Yating's Web</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Final_Project.html">Final Project</a>
+</li>
+<li>
+  <a href="Final_Project_Supplements.html">Final Project Supplements</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/USCbiostats/PM566">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://uscbiostats.github.io/PM566/">PM566 Home</a>
+</li>
+<li>
+  <a href="https://github.com/yating-zeng">Yating's Github</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PM566 Final Project Supplements</h1>
+<h4 class="author"><strong>Yating Zeng</strong></h4>
+<h4 class="date">2022-12-08</h4>
+
+</div>
+
+
+<p>Original Report PDF: <a
+href="https://github.com/yating-zeng/PM566_Final_Project/blob/main/Report.pdf"><strong>Report</strong></a>
+<a
+href="https://github.com/yating-zeng/PM566_Final_Project/raw/main/Report.pdf">[download]</a></p>
+<div id="supplementary-tables" class="section level1">
+<h1><strong>Supplementary tables</strong></h1>
+<div id="summary-tables-tables-for-at-least-one-dose"
+class="section level2">
+<h2>1. Summary tables tables for at least one dose</h2>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 1.Summary of Percent of people with at least one
+dose in females
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Female_Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.73
+</td>
+<td style="text-align:right;">
+5.30
+</td>
+<td style="text-align:right;">
+6.27
+</td>
+<td style="text-align:right;">
+7.1
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4.75
+</td>
+<td style="text-align:right;">
+7.10
+</td>
+<td style="text-align:right;">
+8.28
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5.43
+</td>
+<td style="text-align:right;">
+8.20
+</td>
+<td style="text-align:right;">
+9.57
+</td>
+<td style="text-align:right;">
+10.5
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.70
+</td>
+<td style="text-align:right;">
+18.20
+</td>
+<td style="text-align:right;">
+43.50
+</td>
+<td style="text-align:right;">
+46.9
+</td>
+<td style="text-align:right;">
+661
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+37.40
+</td>
+<td style="text-align:right;">
+75.15
+</td>
+<td style="text-align:right;">
+84.80
+</td>
+<td style="text-align:right;">
+86.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+57.60
+</td>
+<td style="text-align:right;">
+80.35
+</td>
+<td style="text-align:right;">
+91.30
+</td>
+<td style="text-align:right;">
+93.7
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+60.60
+</td>
+<td style="text-align:right;">
+80.25
+</td>
+<td style="text-align:right;">
+88.70
+</td>
+<td style="text-align:right;">
+90.5
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+64.60
+</td>
+<td style="text-align:right;">
+83.05
+</td>
+<td style="text-align:right;">
+90.90
+</td>
+<td style="text-align:right;">
+92.5
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+71.50
+</td>
+<td style="text-align:right;">
+87.90
+</td>
+<td style="text-align:right;">
+94.70
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+79.00
+</td>
+<td style="text-align:right;">
+91.45
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+90.10
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+83.80
+</td>
+<td style="text-align:right;">
+91.25
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 2.Summary of Percent of people with at least one
+dose in males
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Male_Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.70
+</td>
+<td style="text-align:right;">
+5.20
+</td>
+<td style="text-align:right;">
+6.20
+</td>
+<td style="text-align:right;">
+7.0
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4.65
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+<td style="text-align:right;">
+8.10
+</td>
+<td style="text-align:right;">
+9.0
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5.25
+</td>
+<td style="text-align:right;">
+8.05
+</td>
+<td style="text-align:right;">
+9.38
+</td>
+<td style="text-align:right;">
+10.2
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.67
+</td>
+<td style="text-align:right;">
+17.90
+</td>
+<td style="text-align:right;">
+42.00
+</td>
+<td style="text-align:right;">
+45.4
+</td>
+<td style="text-align:right;">
+660
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+33.98
+</td>
+<td style="text-align:right;">
+70.35
+</td>
+<td style="text-align:right;">
+79.60
+</td>
+<td style="text-align:right;">
+81.3
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+50.38
+</td>
+<td style="text-align:right;">
+74.55
+</td>
+<td style="text-align:right;">
+84.90
+</td>
+<td style="text-align:right;">
+87.2
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+55.48
+</td>
+<td style="text-align:right;">
+75.15
+</td>
+<td style="text-align:right;">
+83.30
+</td>
+<td style="text-align:right;">
+85.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+59.30
+</td>
+<td style="text-align:right;">
+78.25
+</td>
+<td style="text-align:right;">
+86.00
+</td>
+<td style="text-align:right;">
+87.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+66.30
+</td>
+<td style="text-align:right;">
+83.75
+</td>
+<td style="text-align:right;">
+91.00
+</td>
+<td style="text-align:right;">
+92.3
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+76.57
+</td>
+<td style="text-align:right;">
+90.15
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+91.10
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+87.70
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 3.Summary of Percent of people with at least one
+dose
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sex_Female
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+59.1
+</td>
+<td style="text-align:right;">
+75.0
+</td>
+<td style="text-align:right;">
+84.2
+</td>
+<td style="text-align:right;">
+86.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex_Male
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+54.7
+</td>
+<td style="text-align:right;">
+71.3
+</td>
+<td style="text-align:right;">
+80.6
+</td>
+<td style="text-align:right;">
+83.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="summary-tables-for-series-dose" class="section level2">
+<h2>2. Summary tables for series dose</h2>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 4.Summary of Percent of people completed a primary
+series
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.70
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+2.10
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+3.20
+</td>
+<td style="text-align:right;">
+4.4
+</td>
+<td style="text-align:right;">
+116
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+2.50
+</td>
+<td style="text-align:right;">
+3.98
+</td>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+114
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+11.25
+</td>
+<td style="text-align:right;">
+36.10
+</td>
+<td style="text-align:right;">
+39.2
+</td>
+<td style="text-align:right;">
+630
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+20.95
+</td>
+<td style="text-align:right;">
+64.20
+</td>
+<td style="text-align:right;">
+73.20
+</td>
+<td style="text-align:right;">
+74.7
+</td>
+<td style="text-align:right;">
+667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+43.20
+</td>
+<td style="text-align:right;">
+67.85
+</td>
+<td style="text-align:right;">
+74.90
+</td>
+<td style="text-align:right;">
+76.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+48.58
+</td>
+<td style="text-align:right;">
+69.05
+</td>
+<td style="text-align:right;">
+74.70
+</td>
+<td style="text-align:right;">
+75.9
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+52.27
+</td>
+<td style="text-align:right;">
+72.15
+</td>
+<td style="text-align:right;">
+77.50
+</td>
+<td style="text-align:right;">
+78.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+58.77
+</td>
+<td style="text-align:right;">
+77.55
+</td>
+<td style="text-align:right;">
+82.40
+</td>
+<td style="text-align:right;">
+83.4
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+67.90
+</td>
+<td style="text-align:right;">
+82.45
+</td>
+<td style="text-align:right;">
+87.00
+</td>
+<td style="text-align:right;">
+88.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+80.20
+</td>
+<td style="text-align:right;">
+89.85
+</td>
+<td style="text-align:right;">
+94.10
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+75.50
+</td>
+<td style="text-align:right;">
+83.05
+</td>
+<td style="text-align:right;">
+86.73
+</td>
+<td style="text-align:right;">
+88.8
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 5.Summary of Percent of people completed a primary
+series in females
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Female_Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.70
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+2.10
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+97
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:right;">
+2.20
+</td>
+<td style="text-align:right;">
+3.35
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.60
+</td>
+<td style="text-align:right;">
+2.90
+</td>
+<td style="text-align:right;">
+4.40
+</td>
+<td style="text-align:right;">
+5.5
+</td>
+<td style="text-align:right;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.50
+</td>
+<td style="text-align:right;">
+11.80
+</td>
+<td style="text-align:right;">
+36.70
+</td>
+<td style="text-align:right;">
+39.9
+</td>
+<td style="text-align:right;">
+629
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+34.52
+</td>
+<td style="text-align:right;">
+67.05
+</td>
+<td style="text-align:right;">
+75.88
+</td>
+<td style="text-align:right;">
+77.3
+</td>
+<td style="text-align:right;">
+650
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+46.68
+</td>
+<td style="text-align:right;">
+70.75
+</td>
+<td style="text-align:right;">
+77.90
+</td>
+<td style="text-align:right;">
+79.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+50.80
+</td>
+<td style="text-align:right;">
+71.30
+</td>
+<td style="text-align:right;">
+77.10
+</td>
+<td style="text-align:right;">
+78.4
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+54.58
+</td>
+<td style="text-align:right;">
+74.25
+</td>
+<td style="text-align:right;">
+79.70
+</td>
+<td style="text-align:right;">
+80.9
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+60.90
+</td>
+<td style="text-align:right;">
+79.25
+</td>
+<td style="text-align:right;">
+84.10
+</td>
+<td style="text-align:right;">
+85.1
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+68.80
+</td>
+<td style="text-align:right;">
+82.75
+</td>
+<td style="text-align:right;">
+87.30
+</td>
+<td style="text-align:right;">
+88.9
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+79.47
+</td>
+<td style="text-align:right;">
+89.05
+</td>
+<td style="text-align:right;">
+93.23
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female_Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+73.60
+</td>
+<td style="text-align:right;">
+81.35
+</td>
+<td style="text-align:right;">
+85.00
+</td>
+<td style="text-align:right;">
+86.9
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 6.Summary of Percent of people completed a primary
+series in males
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Male_Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.70
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+2.10
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+98
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.52
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+3.18
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+114
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.28
+</td>
+<td style="text-align:right;">
+2.70
+</td>
+<td style="text-align:right;">
+4.20
+</td>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+104
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+15.10
+</td>
+<td style="text-align:right;">
+35.50
+</td>
+<td style="text-align:right;">
+38.5
+</td>
+<td style="text-align:right;">
+615
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+27.60
+</td>
+<td style="text-align:right;">
+62.00
+</td>
+<td style="text-align:right;">
+70.50
+</td>
+<td style="text-align:right;">
+71.9
+</td>
+<td style="text-align:right;">
+657
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+39.58
+</td>
+<td style="text-align:right;">
+64.65
+</td>
+<td style="text-align:right;">
+71.60
+</td>
+<td style="text-align:right;">
+73.2
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+45.90
+</td>
+<td style="text-align:right;">
+66.30
+</td>
+<td style="text-align:right;">
+71.82
+</td>
+<td style="text-align:right;">
+72.9
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+49.50
+</td>
+<td style="text-align:right;">
+69.45
+</td>
+<td style="text-align:right;">
+74.70
+</td>
+<td style="text-align:right;">
+75.8
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+55.98
+</td>
+<td style="text-align:right;">
+75.05
+</td>
+<td style="text-align:right;">
+80.00
+</td>
+<td style="text-align:right;">
+81.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+66.30
+</td>
+<td style="text-align:right;">
+81.40
+</td>
+<td style="text-align:right;">
+86.00
+</td>
+<td style="text-align:right;">
+87.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+80.60
+</td>
+<td style="text-align:right;">
+90.25
+</td>
+<td style="text-align:right;">
+94.53
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male_Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+77.68
+</td>
+<td style="text-align:right;">
+84.95
+</td>
+<td style="text-align:right;">
+88.80
+</td>
+<td style="text-align:right;">
+91.1
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Supplementary table 7.Summary of Percent of people completed a primary
+series
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sex_Female
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+49.3
+</td>
+<td style="text-align:right;">
+66.20
+</td>
+<td style="text-align:right;">
+73.93
+</td>
+<td style="text-align:right;">
+75.8
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex_Male
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+45.1
+</td>
+<td style="text-align:right;">
+62.55
+</td>
+<td style="text-align:right;">
+70.30
+</td>
+<td style="text-align:right;">
+72.1
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="supplementary-figures" class="section level1">
+<h1><strong>Supplementary figures</strong></h1>
+<div id="summary-figures-for-one-dose" class="section level2">
+<h2>1. Summary figures for one dose</h2>
+<p><img src="Supplements_files/figure-html/summary%20graphs%20for%20dose1-1.png" width="768" /><img src="Supplements_files/figure-html/summary%20graphs%20for%20dose1-2.png" width="768" /><img src="Supplements_files/figure-html/summary%20graphs%20for%20dose1-3.png" width="768" /></p>
+</div>
+<div id="summary-figures-for-series-dose" class="section level2">
+<h2>2. Summary figures for series dose</h2>
+<p><img src="Supplements_files/figure-html/summary%20graphs%20for%20series%20doses-1.png" width="864" /><img src="Supplements_files/figure-html/summary%20graphs%20for%20series%20doses-2.png" width="864" /><img src="Supplements_files/figure-html/summary%20graphs%20for%20series%20doses-3.png" width="864" /><img src="Supplements_files/figure-html/summary%20graphs%20for%20series%20doses-4.png" width="864" /><img src="Supplements_files/figure-html/summary%20graphs%20for%20series%20doses-5.png" width="864" /></p>
+</div>
+</div>
+<div id="visualization-of-the-association" class="section level1">
+<h1><strong>Visualization of the association</strong></h1>
+<div id="visualization-for-one-dose" class="section level2">
+<h2>1. Visualization for one dose</h2>
+<p><img src="Supplements_files/figure-html/visualization%20for%20first%20dose-1.png" width="960" /></p>
+</div>
+<div id="visualization-for-series-dose" class="section level2">
+<h2>2. Visualization for series dose</h2>
+<p><img src="Supplements_files/figure-html/visualization%20for%20series%20dose-1.png" width="960" /><img src="Supplements_files/figure-html/visualization%20for%20series%20dose-2.png" width="960" /><img src="Supplements_files/figure-html/visualization%20for%20series%20dose-3.png" width="960" /><img src="Supplements_files/figure-html/visualization%20for%20series%20dose-4.png" width="960" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

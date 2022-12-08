@@ -1,0 +1,403 @@
+---
+title: "PM566 Final Project Supplements"
+author: "**Yating Zeng**"
+date: "`r Sys.Date()`"
+output: 
+   pdf_document: default
+   html_document: FALSE
+---
+
+
+Original Report PDF: [**Report**](https://github.com/yating-zeng/PM566_Final_Project/blob/main/Report.pdf)       [[download]](https://github.com/yating-zeng/PM566_Final_Project/raw/main/Report.pdf)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r }
+library(readr)
+library(tidyverse)
+library(dplyr)
+library(stringr)
+if(!require(kableExtra)) install.packages("kableExtra")
+library(kableExtra)
+if(!require(plotly)) install.packages("plotly", repos = "http://cran.us.r-project.org")
+library(plotly)
+if(!require(plotly)) install.packages("DT")
+library(DT)
+```
+
+```{r read-data}
+#read in the dataset
+
+if (!file.exists("COVID19_Vaccination.csv")){
+  library("RSocrata")
+  vaccination <- read.socrata(
+                 "https://data.cdc.gov/resource/n8mc-b4w4.json",
+                  app_token = "KS8vICWuRMDR6QzLnGP7SVO1a",
+                  email     = "yatingzeng18@gmail.com",
+                  password  = "Ttzyt119089838--"
+  )
+}
+
+vaccination <- read_csv("COVID19_Vaccination.csv")
+```
+
+```{r keep data of CA}
+
+#select only the data of CA
+ca_vac <- vaccination[which(vaccination$Location == "CA"), ]
+#str(ca_vac)
+
+#reorder the dataset by Demographic_Category and then date
+ca_vac <- ca_vac[order( ca_vac[,3], ca_vac[,1] ),]
+```
+
+```{r Change the names of the key variables}
+#head(ca_vac)
+#simplified the variable names
+colnames(ca_vac)[3]  <- "cat"
+colnames(ca_vac)[5]  <- "dose1"
+colnames(ca_vac)[6]  <- "series"
+colnames(ca_vac)[9]  <- "dose1_pct"
+colnames(ca_vac)[10] <- "series_pct"
+colnames(ca_vac)[11] <- "booster_pct"
+colnames(ca_vac)[12] <- "secbooster_pct"
+```
+
+```{r remove missing values}
+#checking the proportion of missing values
+#(colMeans(is.na(ca_vac)))*100
+
+vac <- ca_vac[which(ca_vac$cat != "Age_Unknown"), ] 
+vac <- vac %>%
+  filter(!is.na(vac$dose1),!is.na(vac$census))
+
+#check the missing value again
+#(colMeans(is.na(vac)))*100
+
+#learn more about the dataset
+#check about the "Demographic_Category", "Dose1_pct",and "series_pct"
+#unique(vac$cat)
+#summary(vac$dose1_pct)
+#summary(vac$series_pct)
+```
+
+```{r}
+#create new variables about date
+vac$Date  <- substr(vac$Date, 0, 10)
+vac$year  <- substr(vac$Date, 7, 10)
+vac$month <- substr(vac$Date, 0, 2)
+vac$day   <- substr(vac$Date, 4, 5)
+
+#sort the data by date 
+vac1 <- vac[with(vac, order(year, month, day)), ]
+
+#create a new "date" numeric variable with the time order acceptable for reoder dataset
+vac1 <- mutate(vac1, date = paste(year, month, day))
+vac1$date <- str_replace_all(vac1$date, fixed(" "), "")
+
+vac1$year  <- as.numeric(vac1$year)
+vac1$month <- as.numeric(vac1$month)
+vac1$day   <- as.numeric(vac1$day)
+
+```
+
+```{r remove the informarion}
+#remove the some information of no interest: booster information; the data of level "ages 65+"
+vac1 = subset(vac1, select = -c(Booster_Doses, Second_Booster, booster_pct, secbooster_pct) )
+vac1 <- vac1 %>%
+  filter(vac1$cat != "Ages_65+_yrs",
+               vac1$cat != "Female_Ages_65+_yrs",
+               vac1$cat != "Male_Ages_65+_yrs"
+               )
+
+#find that there is a unreasonable order for the level 5-11
+
+#rename the level of 5-11 to 05-11
+vac1$cat <- str_replace_all(vac1$cat, fixed("Female_Ages_5-11_yrs"), "Female_Ages_05-11_yrs")
+vac1$cat <- str_replace_all(vac1$cat, fixed("Male_Ages_5-11_yrs"),   "Male_Ages_05-11_yrs")
+vac1$cat <- str_replace_all(vac1$cat, fixed("Ages_5-11_yrs"),        "Ages_05-11_yrs")
+vac1$cat <- str_replace_all(vac1$cat, fixed("Female_Ages_2-4_yrs"),  "Female_Ages_02-04_yrs")
+vac1$cat <- str_replace_all(vac1$cat, fixed("Male_Ages_2-4_yrs"),    "Male_Ages_02-04_yrs")
+vac1$cat <- str_replace_all(vac1$cat, fixed("Ages_2-4_yrs"),         "Ages_02-04_yrs")
+
+```
+
+```{r}
+#splitting the data by "cat" level into 4 subset: "age"; "Female_age"; "Male_age"; "sex"
+vac1$CAT = substr(vac1$cat, 0, 1)
+#build a subset for 
+vac_age<- vac1 %>%
+  filter(vac1$CAT == "A")
+vac_Fage<- vac1 %>%
+  filter(vac1$CAT == "F")
+vac_Mage<- vac1 %>%
+  filter(vac1$CAT == "M")
+vac_sex<- vac1 %>%
+  filter(vac1$CAT == "S")
+```
+
+
+
+# **Supplementary tables**
+
+## 1. Summary tables tables for at least one dose
+
+```{r summary table for dose1}
+# summary table for dose1
+vac_Fage %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(dose1_pct, na.rm = T),
+                     Q1     = quantile(dose1_pct, 0.25),
+                     Median = median(dose1_pct),
+                     Q3     = quantile(dose1_pct, 0.75),
+                     Max    = max(dose1_pct, na.rm = T), 
+                     Records    = sum(!is.na(dose1_pct))
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 1.Summary of Percent of people with at least one dose in females") %>% 
+                                      kable_styling() 
+
+vac_Mage %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(dose1_pct, na.rm = T),
+                     Q1     = quantile(dose1_pct, 0.25),
+                     Median = median(dose1_pct),
+                     Q3     = quantile(dose1_pct, 0.75),
+                     Max    = max(dose1_pct, na.rm = T), 
+                     Records    = sum(!is.na(dose1_pct))
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 2.Summary of Percent of people with at least one dose in males") %>% 
+                                      kable_styling() 
+
+vac_sex %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(dose1_pct, na.rm = T),
+                     Q1     = quantile(dose1_pct, 0.25),
+                     Median = median(dose1_pct),
+                     Q3     = quantile(dose1_pct, 0.75),
+                     Max    = max(dose1_pct, na.rm = T), 
+                     Records    = sum(!is.na(dose1_pct)) 
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 3.Summary of Percent of people with at least one dose") %>% 
+                                      kable_styling() 
+```
+
+
+## 2. Summary tables for series dose
+
+```{r summary table for series}
+# summary table for series dose
+vac_age %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(series_pct, na.rm = T),
+                     Q1     = quantile(series_pct, 0.25, na.rm = T),
+                     Median = median(series_pct, na.rm = T),
+                     Q3     = quantile(series_pct, 0.75, na.rm = T),
+                     Max    = max(series_pct, na.rm = T), 
+                     Records    = sum(!is.na(series_pct))
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 4.Summary of Percent of people completed a primary series") %>% 
+                                      kable_styling() 
+
+vac_Fage %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(series_pct, na.rm = T),
+                     Q1     = quantile(series_pct, 0.25, na.rm = T),
+                     Median = median(series_pct, na.rm = T),
+                     Q3     = quantile(series_pct, 0.75, na.rm = T),
+                     Max    = max(series_pct, na.rm = T), 
+                     Records    = sum(!is.na(series_pct))
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 5.Summary of Percent of people completed a primary series in females") %>% 
+                                      kable_styling() 
+
+vac_Mage %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(series_pct, na.rm = T),
+                     Q1     = quantile(series_pct, 0.25, na.rm = T),
+                     Median = median(series_pct, na.rm = T),
+                     Q3     = quantile(series_pct, 0.75, na.rm = T),
+                     Max    = max(series_pct, na.rm = T), 
+                     Records    = sum(!is.na(series_pct))
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 6.Summary of Percent of people completed a primary series in males") %>% 
+                                      kable_styling() 
+
+vac_sex %>% group_by(cat) %>%
+                   summarise(
+                     Min    = min(series_pct, na.rm = T),
+                     Q1     = quantile(series_pct, 0.25, na.rm = T),
+                     Median = median(series_pct, na.rm = T),
+                     Q3     = quantile(series_pct, 0.75, na.rm = T),
+                     Max    = max(series_pct, na.rm = T), 
+                     Records    = sum(!is.na(series_pct))
+                     ) %>%  arrange(cat) %>% 
+                              mutate_at(vars(Q1,Median,Q3,Max,Records), funs(round(.,2))) %>% 
+                                rename(Group = cat) %>%
+                                          kbl(caption = 
+             "Supplementary table 7.Summary of Percent of people completed a primary series") %>% 
+                                      kable_styling() 
+```
+
+
+
+# **Supplementary figures**
+
+
+## 1. Summary figures for one dose
+
+```{r summary graphs for dose1, fig.height = 5, fig.width = 8}
+#summary graphs for dose1
+vac_Fage %>%
+    ggplot(aes(x=date, y=dose1_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Age group", y = "Percent of people with at least one dose", fill = 'Age group',
+         caption = "Supplementary figure 8.Percent of people with at least one dose of females") 
+
+
+vac_Mage %>%
+    ggplot(aes(x=date, y=dose1_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Age group", y = "Percent of people with at least one dose", fill = 'Age group',
+         caption = "Supplementary figure 9.Percent of people with at least one dose of males")
+
+
+vac_sex %>%
+    ggplot(aes(x=date, y=dose1_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Sex", y = "Percent of people with at least one dose", fill='Sex group',
+         caption = "Supplementary figure 10.Percent of people with at least one dose")
+```
+
+
+## 2. Summary figures for series dose
+
+```{r summary graphs for series doses, fig.height = 5, fig.width = 9}
+#summary graphs for series doses
+vac_age %>%
+    ggplot(aes(x=date, y=series_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          plot.caption = element_text(hjust = 0.5, size=rel(1.2))) +
+    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
+         caption = "Supplementary figure 11.Percent of people completed a primary series")
+
+
+vac_Fage %>%
+    ggplot(aes(x=date, y=series_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
+         caption = "Supplementary figure 12.Percent of people completed a primary series of males")
+
+vac_Mage %>%
+    ggplot(aes(x=date, y=series_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
+         caption = "Supplementary figure 13.Percent of people completed a primary series of males")
+
+vac_sex %>%
+    ggplot(aes(x=date, y=series_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Sex", y = "Percent of people completed a primary seriese", fill = 'Sex group',
+         caption = "Supplementary figure 14.Percent of people completed a primary seriese")
+
+vac_sex %>%
+    ggplot(aes(x = date, y = dose1_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Sex group", 
+         caption = "Supplementary figure 15.Percent of people completed a primary seriese")
+```
+
+
+
+# **Visualization of the association**
+
+## 1. Visualization for one dose
+
+```{r visualization for first dose,  fig.height = 6, fig.width = 10}
+#visualization for first dose
+vac_age %>%
+    ggplot(aes(x = date, y = dose1_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Age group",
+         caption = "Spplementary figure 16.2020-2022 Percent of people with at least one dose")
+
+
+```
+
+## 2. Visualization for series dose
+
+```{r visualization for series dose, fig.height = 6, fig.width = 10}
+#visualization for series dose
+vac_age %>%
+    ggplot(aes(x=date, y=series_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    scale_x_discrete(breaks=          c("20201213","20210601","20211201","20220601","20221019")) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Age group",
+         caption = "Spplementary figure 17.2020-2022 Percent of people completed a primary series")
+ 
+vac_sex %>%
+    ggplot(aes(x=date, y=series_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Sex group",
+         caption = "Spplementary figure 18.2020-2022 Percent of people completed a primary series")
+
+vac_Fage %>%
+    ggplot(aes(x=date, y=series_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Age group",
+         caption = "Spplementary figure 19.2020-2022 Percent of people completed a primary series of females")
+
+vac_Mage %>%
+    ggplot(aes(x=date, y=series_pct)) + 
+    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
+    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
+    scale_x_discrete(breaks=
+          c("20201213","20210601","20211201","20220601","20221019")) +
+    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Age group",
+         caption = "Spplementary figure 20.Percent of people completed a primary series of males") +
+    guides(fill=guide_legend(title="Age group"))
+```
+

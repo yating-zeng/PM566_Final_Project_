@@ -1,21 +1,21 @@
 ---
 title: "PM566 Final Project"
-author: "**Yating Zeng**"
+author: '**Yating Zeng**'
 date: "`r Sys.Date()`"
-output: 
-    html_document:
-        toc: TRUE
-        toc_float: TRUE
-        keep_md : TRUE 
-    github_document:
-      html_preview: false
-always_allow_html: TRUE
+output:
+  pdf_document:
+    toc: yes
+  github_document:
+    html_preview: no
+  html_document:
+    toc: yes
+    toc_float: yes
+    keep_md: yes
+always_allow_html: yes
 ---
-This is my PM566 Final Project website. 
-https://yating-zeng.github.io/PM566_Lab12/Final_Project.html
+Link to my report PDF: [**Report**](https://github.com/yating-zeng/PM566_Final_Project/blob/main/Report.pdf)       [[download]](https://github.com/yating-zeng/PM566_Final_Project/raw/main/Report.pdf)
 
-And Supplementary website.
-https://yating-zeng.github.io/PM566_Lab12/Final_Project_Supplementary.html
+Link to my supplements PDF: [**Supplements**](https://github.com/yating-zeng/PM566_Final_Project/blob/main/Supplements.pdf) [[download]](https://github.com/yating-zeng/PM566_Final_Project/raw/main/Supplements.pdf)
 
 <br>
 
@@ -26,7 +26,7 @@ knitr::opts_chunk$set(cache=TRUE, echo = FALSE, warning = FALSE, message = FALSE
 
 # Introduction
 
-COVID-19 has been here for around 3 years, with vaccine widely used. It would be likely that some of the people tend to not take the vaccine than the others. Thus, in this project, the question of my interest is: What is the association between age and the vaccination status (at least one dose & completed a primary series) in California state? 
+COVID-19 has been here for around 3 years, with vaccine widely used. It would be likely that some of the people tend to not take the vaccine than the others. Thus, in this project, the question of my interest is: What is **the association between age and the COVID-19 vaccination status** (at least one dose & completed a primary series) in California state? 
 For this project, I’ll use the dataset on Covid-19 vaccination from the Centers for Disease Control and Prevention (CDC) website, which provided data for select demographic characteristics (age, sex, and age by sex) of people receiving COVID-19 vaccinations in the United States at the national and jurisdictional levels, fitting my analysis interest well. All the data were cumulative data, which were counted since the date it started observing.
 
 <br>
@@ -35,7 +35,7 @@ For this project, I’ll use the dataset on Covid-19 vaccination from the Center
 
 ## 1.Dataset 
 
-In this project, the dataset used was a public resource from CDC website, named “COVID-19 Vaccination Age and Sex Trends in the United States, National and Jurisdictional”. The link of the dataset is shown below: https://data.cdc.gov/Vaccinations/COVID-19-Vaccination-Age-and-Sex-Trends-in-the-Uni/5i5k-6cmh. The CSV file of the data was then downloaded and read into R studio for further analysis in this project.
+In this project, the dataset used was a public resource from *CDC website*, named “COVID-19 Vaccination Age and Sex Trends in the United States, National and Jurisdictional”. The link of the dataset is shown below: https://data.cdc.gov/Vaccinations/COVID-19-Vaccination-Age-and-Sex-Trends-in-the-Uni/5i5k-6cmh. The CSV file of the data was then downloaded and read into R studio for further analysis in this project.
 
 ```{r }
 library(readr)
@@ -70,12 +70,7 @@ vaccination <- read_csv("COVID19_Vaccination.csv")
 
 ## 2.Data cleaning, wrangling and EDA
 
-After checking the summary of the content of the dataset, the dimensions and the original properties for each variable were known. I filtered the data to create a new dataset to keep only the information of California. For simplifying the typing in analysis, 7 columns were renamed to be shorter. Then the proportion of missing values of each column and column "Demographic_Category" were checked. Considering that age and vaccination status of primary dose series were the main factors towards this analysis, the information about "Booster",  "Age_unknown" and all the "Age>65" levels of the "Demographic_Category" column, and and the missing values of "dose1"(count of people take at least one dose) and "census" (census statistics used for calculating the percentage of vaccination) were removed.
-
-Because the information this dataset was about the information strongly rely on time series, and all the statistics were cumulative data, a new variable "date" was created for further reorder the data by the time recorded.
-Based on the category from "Demographic_Category" variable (now named "cat"), the original dataset was split into 4 subset for better analysis, which are 1. objects from both sex categorized only by age level; 2. objects were all females categorized by age level; 3. objects were all males categorized by age level; and 4. objects from both sex categorized only by sex level. 
-
-Totally 25 tables and figures were created, with 1 table and 4 figures would shown below and the others to be the supplementary. All the tables and figure were planed to create by 2 vaccination status ("at least one dose" and "completed a primary series") and 4 categorical groups ("age"; "female_age"; "male_age"; and "sex"). The summary tables and figures would show the minimum, 1st quantile, median, 3nd quantile, maximum, and the number of recorded objects of "the percentage of people" with the 2 kinds of vaccination status grouped by age, sex or age groups stratified by sex. The reason to use data stratified by sex was to remove the possible confounding effect from sex on the association between vaccination status and age level. The association between the age and vaccination status would be shown with scatterplots.
+After checking the summary of the content of the dataset, the dimensions and the original properties for each variable were known. I filtered the data to create a new dataset to keep only the information of California. Totally *25 tables and figures* were created, with 5 figures would shown below and more information could be found in the supplementary. All the tables and figure were planed to create by 2 vaccination status ("at least one dose" and "completed a primary series") and 4 categorical groups ("age"; "female_age"; "male_age"; and "sex"). The summary tables and figures would show the minimum, 1st quantile, median, 3nd quantile, maximum, and the number of recorded objects of "the percentage of people" with the 2 kinds of vaccination status grouped by age, sex or age groups stratified by sex. The association between the age and vaccination status would be shown with scatterplots.
 
 ```{r keep data of CA}
 
@@ -176,113 +171,11 @@ vac_sex<- vac1 %>%
 
 # Results
 
-Considering that all the results for people who completed a series dose (Supplementary table 4-7, 11-15,17-20) were consistent with the results for people with at least one dose, thus, in this report, we would focus on the showing the results of analysis for people with at least one dose, which contained more information.
+## **1. Vaccination status trends of "At least one dose" and "A primary series" with little difference**
 
-## 1. Summary tables
+From the summary figures shown bellow, we could notice that both the percent of people with at least one dose grouped by age (Figure 1) and the percent of people completed a primary series grouped by age (Figure 2) are showing consistent trends and similar data structure. Excepting a little part of the data, most of the data were showing a trend that the statistics (the minimum, 1st quantile, median, 3nd quantile, maximum) of vaccination rate would increase, when the age level was higher. Thus, we would focus on the the results of the sample with at least one does for the next in this report.
 
-From the summary table of the percent of people with at least one dose grouped by age (Table 1), we could notice that excepting a little part of the data, most part the data were showing a trend that the statistics (the minimum, 1st quantile, median, 3nd quantile, maximum) of Percent of people with at least one dose would be larger when the age level was higher. And for the major part of observed objects, who were aged from 12-17 years old to 75+ years old, the final vaccination rate will went up to around 90%, while for the low age-level(<5 years) objects, the vaccination rate were all under or around 10%, and for 5-11 years objects the vaccination rate stayed in the middle, which is around 50%. This trend were consistent with the results form all the other 2 summary tables of Percent of people with at least one dose grouped by age stratified by sex (Supplementary table 1 & 2).
-
-
-
-```{r summary table for dose1}
-# summary table for dose1
-vac_age_tab <- vac_age %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(dose1_pct, na.rm = T),
-                     q1     = quantile(dose1_pct, 0.25),
-                     median = median(dose1_pct),
-                     q3     = quantile(dose1_pct, 0.75),
-                     max    = max(dose1_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(dose1_pct))
-                     ) %>%  arrange(cat)
-
-vac_Fage_tab <- vac_Fage %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(dose1_pct, na.rm = T),
-                     q1     = quantile(dose1_pct, 0.25),
-                     median = median(dose1_pct),
-                     q3     = quantile(dose1_pct, 0.75),
-                     max    = max(dose1_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(dose1_pct))
-                     ) %>%  arrange(cat)
-
-vac_Mage_tab <- vac_Mage %>% group_by(cat) %>%
-                   summarise(
-                     min           = min(dose1_pct, na.rm = T),
-                     q1            = quantile(dose1_pct, 0.25),
-                     median        = median(dose1_pct),
-                     q3            = quantile(dose1_pct, 0.75),
-                     max           = max(dose1_pct, na.rm = T), 
-                     days_recorded  = sum(!is.na(dose1_pct))
-                     ) %>%  arrange(cat)
-
-vac_sex_tab <- vac_sex %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(dose1_pct, na.rm = T),
-                     q1     = quantile(dose1_pct, 0.25),
-                     median = median(dose1_pct),
-                     q3     = quantile(dose1_pct, 0.75),
-                     max    = max(dose1_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(dose1_pct))
-                     ) %>%  arrange(cat)
-```
-<br>
-
-**Table 1.Summary of Percent of people with at least one dose grouped by age**
-```{r}
-datatable(vac_age_tab)
-```
-
-
-```{r summary table for series}
-# summary table for series dose
-vac_age_tab2 <- vac_age %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(series_pct, na.rm = T),
-                     q1     = quantile(series_pct, 0.25, na.rm = T),
-                     median = median(series_pct, na.rm = T),
-                     q3     = quantile(series_pct, 0.75, na.rm = T),
-                     max    = max(series_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(series_pct))
-                     ) %>%  arrange(cat) 
-
-vac_Fage_tab2 <- vac_Fage %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(series_pct, na.rm = T),
-                     q1     = quantile(series_pct, 0.25, na.rm = T),
-                     median = median(series_pct, na.rm = T),
-                     q3     = quantile(series_pct, 0.75, na.rm = T),
-                     max    = max(series_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(series_pct))
-                     ) %>%  arrange(cat)
-
-vac_Mage_tab2 <- vac_Mage %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(series_pct, na.rm = T),
-                     q1     = quantile(series_pct, 0.25, na.rm = T),
-                     median = median(series_pct, na.rm = T),
-                     q3     = quantile(series_pct, 0.75, na.rm = T),
-                     max    = max(series_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(series_pct))
-                     ) %>%  arrange(cat)
-
-vac_sex_tab2 <- vac_sex %>% group_by(cat) %>%
-                   summarise(
-                     min    = min(series_pct, na.rm = T),
-                     q1     = quantile(series_pct, 0.25, na.rm = T),
-                     median = median(series_pct, na.rm = T),
-                     q3     = quantile(series_pct, 0.75, na.rm = T),
-                     max    = max(series_pct, na.rm = T), 
-                     days_recorded    = sum(!is.na(series_pct))
-                     ) %>%  arrange(cat)
-```
-<br>
-
-## 2. Summary figures
-
-The summary figures (Figure 1) showed the similar trend mentioned above relatively. Excepting those information, we still could notice that for the object age level from 5-11 years old to 65-74 years old, with the age level went up, the major part of the statistics would with higher values, which means it might take shorter time to have a relatively high vaccination rate for those people with higher age level. 
-
-```{r summary graphs for dose1, fig.height = 5, fig.width = 8}
+```{r summary figures, fig.height = 5, fig.width = 8}
 #summary graphs for dose1
 age1 <- vac_age %>%
     ggplot(aes(x=date, y=dose1_pct)) +
@@ -291,119 +184,66 @@ age1 <- vac_age %>%
           plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
     labs(x = "Age group", y = "Percent of people with at least one dose", fill = 'Age group',
          title = "Figure 1.Percent of people with at least one dose grouped by age")
-ggplotly(age1)
-
-#Fage1 <- vac_Fage %>%
-#    ggplot(aes(x=date, y=dose1_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(axis.text.x = element_text(angle = 60, hjust = 1),
-#          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Age group", y = "Percent of people with at least one dose", fill = 'Age group',
-#         title = "Spplementary figure 8.Percent of people with at least one dose of females grouped by age") 
-
-
-#Mage1 <- vac_Mage %>%
-#    ggplot(aes(x=date, y=dose1_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(axis.text.x = element_text(angle = 60, hjust = 1),
-#          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Age group", y = "Percent of people with at least one dose", fill = 'Age group',
-#         title = "Spplementary figure 9.Percent of people with at least one dose of males grouped by age")
-
-
-#sex1 <- vac_sex %>%
-#    ggplot(aes(x=date, y=dose1_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Sex", y = "Percent of people with at least one dose", fill='Sex group',
-#         title = "Spplementary figure 10.Percent of people with at least one dose grouped by sex")
+#summary graphs for series doses
+age2 <- vac_age %>%
+    ggplot(aes(x=date, y=series_pct)) +
+    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          plot.caption = element_text(hjust = 0.5, size=rel(1.2))) +
+    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
+         title = "Figure 2.Percent of people completed a primary series grouped by age")
 ```
+### {.tabset}
+
+#### Figure 1.
+
+```{r}
+ggplotly(age1)
+```
+
+#### Figure 2.
+
+```{r}
+ggplotly(age2)
+```
+
+### {-}
+
 <br>
-From the line plot (figures 2) suggests that there would be difference of the percent of having at least one dose between female and male, making it to be more appropriate to use the stratified data for analyzing the association between age and vaccination rate.
+
+## **2. Females have higher vaccination rate than males**
+
+The results for the percent group by sex shown in Figure 1. suggests that compared to the male, females would have higher vaccination rate across all the time recorded, and went up to a higher level in the end. Considering over this issue, we would better to analyze the data stratified by gender to prevent possible confounding effect.
 
 ```{r}
 sex01 <- vac_sex %>%
     ggplot(aes(x = date, y = dose1_pct)) + 
     geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
     scale_x_discrete(breaks=
-          c("20201213","20210601","20211201","20220601","20221019")) +
+          c("20201213","20210601","20211201","20220601","20221019"))+
+    scale_color_discrete(labels = c("Female", "Male")) +
     theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
     labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Sex group", 
-         title = "figure 2.Percent of people completed a primary seriese grouped by sex")
+         title = "Figure 3.Percent of people completed a primary seriese grouped by sex")
 ggplotly(sex01)
 ```
 
+## **3. The vaccination rate would be higher with the age level increased**
 
-```{r summary graphs for series doses, fig.height = 5, fig.width = 9}
-#summary graphs for series doses
-#age2 <- vac_age %>%
-#    ggplot(aes(x=date, y=series_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(axis.text.x = element_text(angle = 60, hjust = 1),
-#          plot.caption = element_text(hjust = 0.5, size=rel(1.2))) +
-#    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
-#         title = "Spplementary figure 11.Percent of people completed a primary series grouped by age")
+Based on the figures bellow (Figure 5 & 6), we could find that in both gender, the vaccination rate were higher with the age level being higher for the same time point, and the objects with higher age might take shorter time to have a relatively high vaccination rate. Which needs to be mentioned is that, this trend was also observed in the low age-level group(<5 years), but with obviously lower vaccination rate than the major part of the sample objects.
 
-
-#Fage2 <- vac_Fage %>%
-#    ggplot(aes(x=date, y=series_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(axis.text.x = element_text(angle = 60, hjust = 1),
-#          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
-#         title = "Spplementary figure 12.Percent of people completed a primary series of males grouped by age")
-
-#Mage2 <- vac_Mage %>%
-#    ggplot(aes(x=date, y=series_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(axis.text.x = element_text(angle = 60, hjust = 1),
-#          plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Age group", y = "Percent of people completed a primary series", fill = 'Age group',
-#         title = "Spplementary figure 13.Percent of people completed a primary series of males grouped by age")
-
-#sex2 <- vac_sex %>%
-#    ggplot(aes(x=date, y=series_pct)) +
-#    geom_boxplot(mapping = aes(x = cat, y = dose1_pct, fill = cat)) +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Sex", y = "Percent of people completed a primary seriese", fill = 'Sex group',
-#         title = "Spplementary figure 14.Percent of people completed a primary seriese grouped by sex in boxplot")
-
-#sex02 <- vac_sex %>%
-#    ggplot(aes(x = date, y = dose1_pct)) + 
-#    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
-#    scale_x_discrete(breaks=
-#          c("20201213","20210601","20211201","20220601","20221019")) +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Sex group", 
-#         title = "Spplementary figure 15.Percent of people completed a primary seriese grouped by sex in line plot")
-```
-
-<br>
-
-## 3. Visualization of the association
-
-These 2 figures (Figure 3-4) all verified the trend that after adjusting by sex, the vaccination rate would be higher with the age level being higher for the same time point, and the objects with higher age might take shorter time to have a relatively high vaccination rate. Which needs to be mentioned is that, this trend was also observed in the low age-level group(<5 years), but with obviously lower vaccination rate than the major part of the sample objects.
 
 ```{r visualization for first dose}
-#visualization for first dose
-#age3 <- vac_age %>%
-#    ggplot(aes(x = date, y = dose1_pct)) + 
-#    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
-#    scale_x_discrete(breaks=
-#          c("20201213","20210601","20211201","20220601","20221019")) +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Age group",
-#         title = "Spplementary figure 16.2020-2022 Percent of people with at least one dose grouped by age")
-
 Fage03 <- vac_Fage %>%
     ggplot(aes(x = date, y = dose1_pct)) + 
     geom_point(mapping = aes(x = date, y = dose1_pct, color = cat)) +
     scale_x_discrete(breaks=
           c("20201213","20210601","20211201","20220601","20221019")) +
     theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Age group", 
-         title = "Figure 3.Percent of people with at least one dose of females grouped by age")
-ggplotly(Fage03)
+    labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose of female", col="Age group", 
+         title = "Figure 4.Percent of people with at least one dose of females") +
+    scale_fill_discrete(name = "Age group")
+
 
 Mage03 <- vac_Mage %>%
     ggplot(aes(x=date, y=dose1_pct)) + 
@@ -412,54 +252,29 @@ Mage03 <- vac_Mage %>%
     scale_x_discrete(breaks=
           c("20201213","20210601","20211201","20220601","20221019")) +
     labs(x = "Date(yyyymmdd)", y = "Percent of people with at least one dose", col="Age group", 
-         title = "Figure 4.Percent of people with at least one dose of males grouped by age") +
+         title = "Figure 5.Percent of people with at least one dose of males") +
     scale_fill_discrete(name = "Age group")
+
+```
+
+### {.tabset}
+
+#### Figure 4.
+
+```{r}
+ggplotly(Fage03)
+```
+
+#### Figure 5.
+
+```{r}
 ggplotly(Mage03)
 ```
 
-```{r visualization for series dose, fig.height = 6, fig.width = 10}
-#visualization for series dose
-#age4 <- vac_age %>%
-#    ggplot(aes(x=date, y=series_pct)) + 
-#    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    scale_x_discrete(breaks=          c("20201213","20210601","20211201","20220601","20221019")) +
-#    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Age group",
-#         title = "Spplementary figure 17.Percent of people completed a primary series grouped by age")
- 
-#sex4 <- vac_sex %>%
-#    ggplot(aes(x=date, y=series_pct)) + 
-#    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    scale_x_discrete(breaks=
-#          c("20201213","20210601","20211201","20220601","20221019")) +
-#    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Sex group",
-#         title = "Spplementary figure 18.Percent of people completed a primary series grouped by sex")
-
-#Fage4 <- vac_Fage %>%
-#    ggplot(aes(x=date, y=series_pct)) + 
-#    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    scale_x_discrete(breaks=
-#          c("20201213","20210601","20211201","20220601","20221019")) +
-#    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Age group",
-#         title = "Spplementary figure 19.Percent of people completed a primary series of females grouped by age")
-
-#Mage4 <- vac_Mage %>%
-#    ggplot(aes(x=date, y=series_pct)) + 
-#    geom_point(mapping = aes(x = date, y = dose1_pct, color = cat))  +
-#    theme(plot.caption = element_text(hjust=0.5, size=rel(1.2))) +
-#    scale_x_discrete(breaks=
-#          c("20201213","20210601","20211201","20220601","20221019")) +
-#    labs(x = "Date(yyyymmdd)", y = "Percent of people completed a primary series", col="Age group",
-#         caption = "Spplementary figure 20.Percent of people completed a primary series of males grouped by age") +
-#    guides(fill=guide_legend(title="Age group"))
-```
-
-<br>
+### {-}
 
 # Conclusion
 
-We could believe that there could be an association between age and the two vaccination status (at least one dose & completed a primary series) in California state.For both 2 kinds of vaccination status(take at least one dose & with completed series) and both sex, the vaccination rate would be higher with the age level being higher for the same time point, and the objects with higher age might also take shorter time to have a relatively high vaccination rate. And the final vaccination rate would be higher with the age level being higher, but the rate for people with age less than 5 years old would keep in a low level, even though they follow the same trend mentioned above.
+We could believe that there could be an association between age and the two vaccination status (at least one dose & completed a primary series) in California state. For both two kinds of vaccination status(take at least one dose & with completed series) and both sex, the vaccination rate would be higher with the age level being higher for the same time point, and the objects with higher age might also take shorter time to have a relatively high vaccination rate. And the final vaccination rate would be higher with the age level being higher, but the rate for people with age less than 5 years old would keep in a low level, even though they follow the same trend mentioned above.
 
 <br>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Yating Zeng" />
+
+<meta name="date" content="2022-12-08" />
+
+<title>PM566 Final Project: An initial Research on the Association between Covid-19 Vaccination Status and Age</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Yating's Web</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Final_Project.html">Final Project</a>
+</li>
+<li>
+  <a href="Final_Project_Supplements.html">Final Project Supplements</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/USCbiostats/PM566">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://uscbiostats.github.io/PM566/">PM566 Home</a>
+</li>
+<li>
+  <a href="https://github.com/yating-zeng">Yating's Github</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PM566 Final Project: An initial Research on
+the Association between Covid-19 Vaccination Status and Age</h1>
+<h4 class="author">Yating Zeng</h4>
+<h4 class="date">2022-12-08</h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>COVID-19 has been here for around 3 years, with vaccine widely used.
+It would be likely that some of the people tend to not take the vaccine
+than the others. Thus, in this project, the question of my interest is:
+What is the association between age and two vaccination status (at least
+one dose &amp; completed a primary series) in California state? For this
+project, I’ll use the dataset on Covid-19 vaccination from the Centers
+for Disease Control and Prevention (CDC) website, which provided data
+for select demographic characteristics (age, sex, and age by sex) of
+people receiving COVID-19 vaccinations in the United States at the
+national and jurisdictional levels, fitting my analysis interest well.
+All the data were cumulative data, which were counted since the date it
+started observing.</p>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<div id="dataset" class="section level2">
+<h2>1.Dataset</h2>
+<p>In this project, the dataset used was a public resource from CDC
+website, named “COVID-19 Vaccination Age and Sex Trends in the United
+States, National and Jurisdictional”. The link of the dataset is shown
+below: <a
+href="https://data.cdc.gov/Vaccinations/COVID-19-Vaccination-Age-and-Sex-Trends-in-the-Uni/5i5k-6cmh"
+class="uri">https://data.cdc.gov/Vaccinations/COVID-19-Vaccination-Age-and-Sex-Trends-in-the-Uni/5i5k-6cmh</a>.
+The CSV file of the data was then downloaded and read into R studio for
+further analysis in this project.</p>
+</div>
+<div id="data-cleaning-wrangling-and-eda" class="section level2">
+<h2>2.Data cleaning, wrangling and EDA</h2>
+<p>After checking the summary of the content of the dataset, the
+dimensions and the original properties for each variable were known. I
+filtered the data to create a new dataset to keep only the information
+of California. For simplifying the typing in analysis, 7 columns were
+renamed to be shorter. Then the proportion of missing values of each
+column and column “Demographic_Category” were checked. Considering that
+age and vaccination status of primary dose series were the main factors
+towards this analysis, the information about “Booster”, “Age_unknown”
+and all the “Age&gt;65” levels of the “Demographic_Category” column, and
+and the missing values of “dose1”(count of people take at least one
+dose) and “census” (census statistics used for calculating the
+percentage of vaccination) were removed.</p>
+<p>Because the information this dataset was about the information
+strongly rely on time series, and all the statistics were cumulative
+data, a new variable “date” was created for further reorder the data by
+the time recorded. Based on the category from “Demographic_Category”
+variable (now named “cat”), the original dataset was split into 4 subset
+for better analysis, which are 1. objects from both sex categorized only
+by age level; 2. objects were all females categorized by age level; 3.
+objects were all males categorized by age level; and 4. objects from
+both sex categorized only by sex level.</p>
+<p>Summary tables and boxplots were created by 2 vaccination status (“at
+least one dose” and “completed a primary series”) and 4 categorical
+groups (“age”; “female_age”; “male_age”; and “sex”), showing the
+minimum, 1st quantile, median, 3nd quantile, maximum, and the number of
+recorded objects of “the percentage of people” with the 2 kinds of
+vaccination status grouped by age, sex or age groups stratified by sex.
+The reason to use data stratified by sex was to remove the possible
+confounding effect from sex on the association between vaccination
+status and age level. Then to find out the association between sex and
+vaccination and between age and vaccination status, grouped scatter
+plots were planed to create, by the same approach mentioned in the part
+of summary tables and figures. In this report, totally 2 tables, 2 box
+plots and 3 scatter plots created were shown here, more information
+could be found in the supplements website <a
+href="https://yating-zeng.github.io/PM566_Final_Project/Final_Project_Supplements.html">[Link]</a>.</p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<div
+id="vaccination-status-trends-of-at-least-one-dose-and-a-primary-series-with-little-difference"
+class="section level2">
+<h2>1. Vaccination status trends of “At least one dose” and “A primary
+series” with little difference</h2>
+<p>From the summary tables and figures shown bellow, we could notice
+that both the percent of people with at least one dose grouped by age
+(Table 1 &amp; Figure 1) and the percent of people completed a primary
+series grouped by age (Table1 &amp; Figure 2) are showing consistent
+trends and similar data structure. Excepting a little part of the data,
+most part the data were showing a trend that the statistics (the
+minimum, 1st quantile, median, 3nd quantile, maximum) of vaccination
+rate would increase, when the age level was higher. And for the major
+part of observed objects, who were aged from 12-17 years old to 75+
+years old, the final vaccination rate will went up to around 90%, while
+for the low age-level(&lt;5 years) objects, the vaccination rate were
+all under or around 10%, and for 5-11 years objects the vaccination rate
+stayed in the middle, which is around 50%. Beside, the sample size are
+also nearly the same for these two subsets among each age group, with
+more than 600 records for each age group which is no less than “5-11
+years” level and with around 100 records for age groups “&lt;2 years”,
+“&lt;5 years” and “2-4 years” (Table 1 &amp; 2). Though in the one for
+the percent of people with at least one dose, the final vaccination
+would go up to 80+%, while for the one of the percent of people
+completed a primary series, the rate could up to 70+%, this make sense
+for the reason that vaccination rate would always higher if contained
+the sample who only take one dose. Thus, we would focus on the the
+results of the sample with at least one does for the next in this
+report.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 1.Summary of Percent of people with at least one dose grouped by
+age
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.73
+</td>
+<td style="text-align:right;">
+5.20
+</td>
+<td style="text-align:right;">
+6.20
+</td>
+<td style="text-align:right;">
+7.1
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4.73
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+8.20
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5.35
+</td>
+<td style="text-align:right;">
+8.15
+</td>
+<td style="text-align:right;">
+9.47
+</td>
+<td style="text-align:right;">
+10.4
+</td>
+<td style="text-align:right;">
+122
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.50
+</td>
+<td style="text-align:right;">
+16.10
+</td>
+<td style="text-align:right;">
+42.70
+</td>
+<td style="text-align:right;">
+46.2
+</td>
+<td style="text-align:right;">
+667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+35.70
+</td>
+<td style="text-align:right;">
+72.80
+</td>
+<td style="text-align:right;">
+82.30
+</td>
+<td style="text-align:right;">
+84.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+54.10
+</td>
+<td style="text-align:right;">
+77.65
+</td>
+<td style="text-align:right;">
+88.32
+</td>
+<td style="text-align:right;">
+90.7
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+58.30
+</td>
+<td style="text-align:right;">
+78.05
+</td>
+<td style="text-align:right;">
+86.40
+</td>
+<td style="text-align:right;">
+88.2
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+62.30
+</td>
+<td style="text-align:right;">
+81.05
+</td>
+<td style="text-align:right;">
+89.00
+</td>
+<td style="text-align:right;">
+90.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+69.38
+</td>
+<td style="text-align:right;">
+86.35
+</td>
+<td style="text-align:right;">
+93.40
+</td>
+<td style="text-align:right;">
+94.8
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+78.20
+</td>
+<td style="text-align:right;">
+91.35
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+90.90
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+85.70
+</td>
+<td style="text-align:right;">
+93.35
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 2.Summary of Percent of people completed a primary series grouped
+by age
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Records
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ages_&lt;2yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.70
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+2.10
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_&lt;5yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+3.20
+</td>
+<td style="text-align:right;">
+4.4
+</td>
+<td style="text-align:right;">
+116
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_02-04_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+2.50
+</td>
+<td style="text-align:right;">
+3.98
+</td>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+114
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_05-11_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+11.25
+</td>
+<td style="text-align:right;">
+36.10
+</td>
+<td style="text-align:right;">
+39.2
+</td>
+<td style="text-align:right;">
+630
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_12-17_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+20.95
+</td>
+<td style="text-align:right;">
+64.20
+</td>
+<td style="text-align:right;">
+73.20
+</td>
+<td style="text-align:right;">
+74.7
+</td>
+<td style="text-align:right;">
+667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_18-24_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+43.20
+</td>
+<td style="text-align:right;">
+67.85
+</td>
+<td style="text-align:right;">
+74.90
+</td>
+<td style="text-align:right;">
+76.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_25-39_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+48.58
+</td>
+<td style="text-align:right;">
+69.05
+</td>
+<td style="text-align:right;">
+74.70
+</td>
+<td style="text-align:right;">
+75.9
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_25-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+52.27
+</td>
+<td style="text-align:right;">
+72.15
+</td>
+<td style="text-align:right;">
+77.50
+</td>
+<td style="text-align:right;">
+78.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_40-49_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+58.77
+</td>
+<td style="text-align:right;">
+77.55
+</td>
+<td style="text-align:right;">
+82.40
+</td>
+<td style="text-align:right;">
+83.4
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_50-64_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+67.90
+</td>
+<td style="text-align:right;">
+82.45
+</td>
+<td style="text-align:right;">
+87.00
+</td>
+<td style="text-align:right;">
+88.6
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_65-74_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+80.20
+</td>
+<td style="text-align:right;">
+89.85
+</td>
+<td style="text-align:right;">
+94.10
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ages_75+_yrs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+75.50
+</td>
+<td style="text-align:right;">
+83.05
+</td>
+<td style="text-align:right;">
+86.73
+</td>
+<td style="text-align:right;">
+88.8
+</td>
+<td style="text-align:right;">
+676
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="Report_files/figure-html/summary%20figures-1.png" width="768" /><img src="Report_files/figure-html/summary%20figures-2.png" width="768" /></p>
+</div>
+<div id="females-have-higher-vaccination-rate-than-males"
+class="section level2">
+<h2>2. Females have higher vaccination rate than males</h2>
+<p>The results for the percent group by sex shown in Figure 1. suggests
+that compared to the male, females would have higher vaccination rate
+across all the time recorded, and went up to a higher level in the end.
+Considering over this issue, we would better to analyze the data
+stratified by gender to prevent possible confounding effect. This
+difference might also give light on the direction for further study,
+which could help government to take different measure towards males and
+females on publicity, which would not be discussed more in this
+research.</p>
+<p><img src="Report_files/figure-html/effect%20from%20gender-1.png" width="672" /></p>
+</div>
+<div
+id="the-vaccination-rate-would-be-higher-with-the-age-level-increased"
+class="section level2">
+<h2>3. The vaccination rate would be higher with the age level
+increased</h2>
+<p>Based on the figures bellow (Figure 5 &amp; 6), we could find that in
+both gender, the vaccination rate were higher with the age level being
+higher for the same time point, and the objects with higher age might
+take shorter time to have a relatively high vaccination rate. Which
+needs to be mentioned is that, this trend was also observed in the low
+age-level group(&lt;5 years), but with obviously lower vaccination rate
+than the major part of the sample objects. During the very beginning of
+the record period, vaccination rate of people age from 18 to 64
+increased within relatively shorter time, which might be due to the
+reason that for those people, they would be more easier to accept latest
+information and be more willing to try new things. After that, the
+vaccination rate of people aged over 65 increased to a high level with
+much shorter time, which might be due to the more support, publicity and
+education from the government, considering that Covid-19 is deadlier for
+those people. The trend for people aged from 12 to 64, would be more
+useful for extending to the other vaccination rate expectation in the
+future.</p>
+<p><img src="Report_files/figure-html/visulization-1.png" width="960" /><img src="Report_files/figure-html/visulization-2.png" width="960" /></p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>We could believe that there could be an association between age and
+the two vaccination status (at least one dose &amp; completed a primary
+series) in California state.For both 2 kinds of vaccination status(take
+at least one dose &amp; with completed series) and both sex, the
+vaccination rate would be higher with the age level being higher for the
+same time point, and the objects with higher age might also take shorter
+time to have a relatively high vaccination rate. And the final
+vaccination rate would be higher with the age level being higher, but
+the rate for people with age less than 5 years old would keep in a low
+level, even though they follow the same trend mentioned above.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

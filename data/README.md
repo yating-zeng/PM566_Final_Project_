@@ -1,0 +1,5 @@
+The dataset used was a public resource from CDC website, with title named **“COVID-19 Vaccination Age and Sex Trends in the United States, National and Jurisdictional”**, which could be access through the link: https://data.cdc.gov/Vaccinations/COVID-19-Vaccination-Age-and-Sex-Trends-in-the-Uni/5i5k-6cmh , and be downloaded with this [[Link]](https://data.cdc.gov/api/views/5i5k-6cmh/rows.csv?accessType=DOWNLOAD).
+
+SORRY for the miss of the data in this folder, please download it by click the [Link] botton above. Really appreciate it! 
+
+(Because it's 127 MB, which was not that easy to upload in github successfully, and I believe it would be better for you to download it through the link which could be more convenient and quicker, rather than attached my password here for you to download through API with code. Thank you for your understanding!)
